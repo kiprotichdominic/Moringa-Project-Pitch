@@ -1,9 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"]= "da3f071810a37f4d8984a3fca56014fe18f40a02"
+app.config["SECRET_KEY"] = "da3f071810a37f4d8984a3fca56014fe18f40a02"
 
 posts = [
     {
@@ -23,23 +23,28 @@ posts = [
 
 @app.route('/')
 @app.route("/home")
-def index():
-    return render_template("index.html", posts = posts, title = "Home page")
+def home():
+    return render_template("index.html", posts=posts, title="Home page")
 
 
 @app.route("/about")
 def about():
     return render_template("about.html")
 
-@app.route("/register")
+
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    return render_template("register.html", title = "Register", form=form)
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home'))
+    return render_template('register.html', title='Register', form=form)
 
-@app.route("/login")
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-    return render_template("login.html", title = "Login", form=form)
+    return render_template("login.html", title="Login", form=form)
 
 
 if __name__ == '__main__':
