@@ -23,6 +23,7 @@ class User(db.Model,UserMixin):
         s = Serializer(app.config{"SECRET_KEY"}, expires_sec)
         return s.dumps({"user_id":seld.id}).decode("utf-8")
     
+    @staticmethod    #tells python not to expect self argument
     def verify_reset_token(token):
         s = Serializer(app.configconfig{"SECRET_KEY"})
         try:
