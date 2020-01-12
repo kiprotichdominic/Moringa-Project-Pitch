@@ -3,25 +3,9 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from app.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
-
-
-posts = [
-    {
-        "author": "Kiprotich",
-        "title": "First Blog post",
-        "content": "My first content",
-        "date_posted": "April 20, 2019"
-    },
-    {
-        "author": "Kiprotich Dominic",
-        "title": "First Blog post",
-        "content": "My first content",
-        "date_posted": "April 20, 2020"
-    }
-]
 
 
 @app.route('/')
@@ -107,3 +91,10 @@ def account():
     image_file = url_for(
         "static", filename="profile_pics/" + current_user.image_file)
     return render_template("account.html", title="account", image_file=image_file, form=form)
+
+@app.route("/post/new", methods=["GET", "POST"])
+@login_required
+def news_post():
+    form = PostForm()
+    return render_template("post.html", title = "New post", form=form)
+    
