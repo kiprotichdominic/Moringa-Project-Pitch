@@ -19,13 +19,13 @@ class User(db.Model,UserMixin):
     posts = db.relationship("Post", backref="author", lazy=True)
     
     
-    def get_reste_token(self, expires_sec=1800):
-        s = Serializer(app.config{"SECRET_KEY"}, expires_sec)
-        return s.dumps({"user_id":seld.id}).decode("utf-8")
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
     
     @staticmethod    #tells python not to expect self argument
     def verify_reset_token(token):
-        s = Serializer(app.configconfig{"SECRET_KEY"})
+        s = Serializer(app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token)["user_id"]
         except:
@@ -43,6 +43,8 @@ class Post(db.Model):
                             default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-
+    
     def __repr__(self):
         return f"User('{self.title}','{self.date_posted}')"
+    
+
