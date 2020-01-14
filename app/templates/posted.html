@@ -18,6 +18,18 @@
       {% endif %}
       </div>
     </div>
+    <div class="text-center ml-5">
+      <div class="row">
+        <div class="col-md-6">
+          <div onClick="onClick()"><i class="fas fa-thumbs-up"></i></div>
+          <p><a id="clicks">0</a></p>
+        </div>
+        <div class="col-md-6">
+          <div onClick="onClicks()"><i class="fas fa-thumbs-down"></i></div>
+          <p><a id="click">0</a></p>
+        </div>
+      </div>
+    </div>
     <div class="content-section p-3">
       <form action="" method="POST">
           {{form.hidden_tag()}}
